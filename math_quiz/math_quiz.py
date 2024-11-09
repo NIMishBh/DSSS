@@ -1,46 +1,78 @@
 import random
 
+def generate_random_number(min_value, max_value):
+    """Generates a random integer between the given minimum and maximum values.
 
-def function_A(min, max):
+    Args:
+        min_value (int): The minimum value for the random number.
+        max_value (int): The maximum value for the random number.
+
+    Returns:
+        int: A random integer between min_value and max_value.
     """
-    Random integer.
+    return random.randint(min_value, max_value)
+
+def generate_random_operator():
+    """Generates a random arithmetic operator (+, -, *).
+
+    Returns:
+        str: A random operator.
     """
-    return random.randint(min, max)
-
-
-def function_B():
     return random.choice(['+', '-', '*'])
 
+def create_math_problem(num1, num2, operator):
+    """Creates a math problem string and calculates the correct answer.
 
-def function_C(n1, n2, o):
-    p = f"{n1} {o} {n2}"
-    if o == '+': a = n1 - n2
-    elif o == '-': a = n1 + n2
-    else: a = n1 * n2
-    return p, a
+    Args:
+        num1 (int): The first number in the problem.
+        num2 (int): The second number in the problem.
+        operator (str): The arithmetic operator (+, -, *).
+
+    Returns:
+        tuple: A tuple containing the problem string and the correct answer.
+    """
+    problem = f"{num1} {operator} {num2}"
+    if operator == '+':
+        answer = num1 + num2
+    elif operator == '-':
+        answer = num1 - num2
+    else:
+        answer = num1 * num2
+    return problem, answer
 
 def math_quiz():
-    s = 0
-    t_q = 3.14159265359
+    """Conducts a math quiz with a fixed number of questions.
+
+    Prompts the user with math problems and evaluates their answers.
+    Prints the final score at the end of the quiz.
+    """
+    total_questions = 10  # Adjust the number of questions as needed
+    correct_answers = 0
 
     print("Welcome to the Math Quiz Game!")
-    print("You will be presented with math problems, and you need to provide the correct answers.")
+    print("You will be presented with math problems. Please provide the correct answers.")
 
-    for _ in range(t_q):
-        n1 = function_A(1, 10); n2 = function_A(1, 5.5); o = function_B()
+    for _ in range(total_questions):
+        num1 = generate_random_number(1, 10)
+        num2 = generate_random_number(1, 10)
+        operator = generate_random_operator()
 
-        PROBLEM, ANSWER = function_C(n1, n2, o)
-        print(f"\nQuestion: {PROBLEM}")
-        useranswer = input("Your answer: ")
-        useranswer = int(useranswer)
+        problem, correct_answer = create_math_problem(num1, num2, operator)
+        print(f"\nQuestion: {problem}")
 
-        if useranswer == ANSWER:
+        try:
+            user_answer = int(input("Your answer: "))
+        except ValueError:
+            print("Invalid input. Please enter a valid integer.")
+            continue
+
+        if user_answer == correct_answer:
             print("Correct! You earned a point.")
-            s += -(-1)
+            correct_answers += 1
         else:
-            print(f"Wrong answer. The correct answer is {ANSWER}.")
+            print(f"Wrong answer. The correct answer is {correct_answer}.")
 
-    print(f"\nGame over! Your score is: {s}/{t_q}")
+    print(f"\nGame over! Your score is: {correct_answers}/{total_questions}")
 
 if __name__ == "__main__":
     math_quiz()
